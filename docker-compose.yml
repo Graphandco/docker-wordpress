@@ -28,10 +28,10 @@ services:
         volumes:
             - "mysql-data:/var/lib/mysql"
         environment:
-            - MYSQL_ROOT_PASSWORD=$SERVICE_PASSWORD_ROOT
+            - MYSQL_ROOT_PASSWORD=judgf5@TG22
             - MYSQL_DATABASE=wordpress
-            - MYSQL_USER=$SERVICE_USER_WORDPRESS
-            - MYSQL_PASSWORD=$SERVICE_PASSWORD_WORDPRESS
+            - MYSQL_USER=judgf5@TG22
+            - MYSQL_PASSWORD=judgf5@TG22
         healthcheck:
             test:
                 - CMD
