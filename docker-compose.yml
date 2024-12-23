@@ -51,7 +51,7 @@ services:
             - "8070:80"
         environment:
             - PMA_HOST=mysql
-            - PMA_PASSWORD=$SERVICE_PASSWORD_ROOT
+            - PMA_PASSWORD=judgf5@TG22
 
     ftp:
         build:
