@@ -8,8 +8,8 @@ services:
         environment:
             - SERVICE_FQDN_WORDPRESS
             - WORDPRESS_DB_HOST=mysql
-            - WORDPRESS_DB_USER=$SERVICE_USER_WORDPRESS
-            - WORDPRESS_DB_PASSWORD=$SERVICE_PASSWORD_WORDPRESS
+            - WORDPRESS_DB_USER=judgf5@TG22
+            - WORDPRESS_DB_PASSWORD=judgf5@TG22
             - WORDPRESS_DB_NAME=wordpress
         depends_on:
             - mysql
