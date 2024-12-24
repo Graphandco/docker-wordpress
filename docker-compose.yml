@@ -62,13 +62,13 @@ services:
             - "21000-21010:21000-21010" # Ports passifs FTP
         environment:
             - USERS=ftpusergraphandco|1FTPvmQ2tl@@AZ|/var/www/html
-            - UID=33 # UID de www-data
-            - GID=33 # GID de www-data
+            - UID=33 # Correspond à l'UID de www-data
+            - GID=33 # Correspond au GID de www-data
         volumes:
             - "wordpress-files:/var/www/html" # Partage avec WordPress
 
 volumes:
     wordpress-files:
-        driver: local
+        driver: local # Volume local pour persister les fichiers WordPress
     mysql-data:
-        driver: local
+        driver: local # Volume local pour les données MySQL
