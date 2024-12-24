@@ -17,3 +17,6 @@ RUN mkdir -p /var/www/html && chown -R www-data:www-data /var/www/html
 
 # Configuration des utilisateurs FTP
 ENV USERS=ftpusergraphandco|1FTPvmQ2tl@@AZ|/var/www/html
+
+RUN chown -R www-data:www-data /var/www/html
+
