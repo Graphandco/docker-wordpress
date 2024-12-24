@@ -52,6 +52,7 @@ services:
         environment:
             - PMA_HOST=mysql
             - PMA_PASSWORD=$MYSQL_PASSWORD_ROOT
+
     ftp:
         build:
             context: ./ftp # Chemin relatif au Dockerfile
@@ -64,10 +65,10 @@ services:
             - UID=33 # UID de www-data
             - GID=33 # GID de www-data
         volumes:
-            - "wordpress-files:/var/www/html"
+            - "wordpress-files:/var/www/html:rw" # Partage avec WordPress en mode lecture/écriture
 
 volumes:
     wordpress-files:
-        driver: local
+        driver: local # Volume local pour persister les fichiers WordPress
     mysql-data:
-        driver: local
+        driver: local # Volume local pour les données MySQL
