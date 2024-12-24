@@ -6,10 +6,9 @@ services:
         volumes:
             - "wordpress-files:/var/www/html"
         environment:
-            - SERVICE_FQDN_WORDPRESS
             - WORDPRESS_DB_HOST=mysql
-            - WORDPRESS_DB_USER=wordpress
-            - WORDPRESS_DB_PASSWORD=wordpress
+            - WORDPRESS_DB_USER=$USER_WORDPRESS
+            - WORDPRESS_DB_PASSWORD=$PASSWORD_WORDPRESS
             - WORDPRESS_DB_NAME=wordpress
         depends_on:
             - mysql
@@ -28,10 +27,10 @@ services:
         volumes:
             - "mysql-data:/var/lib/mysql"
         environment:
-            - MYSQL_ROOT_PASSWORD=wordpress
+            - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD_ROOT
             - MYSQL_DATABASE=wordpress
-            - MYSQL_USER=wordpress
-            - MYSQL_PASSWORD=wordpress
+            - MYSQL_USER=$USER_WORDPRESS
+            - MYSQL_PASSWORD=$PASSWORD_WORDPRESS
         healthcheck:
             test:
                 - CMD
@@ -43,32 +42,21 @@ services:
             timeout: 20s
             retries: 10
 
-    pma:
-        depends_on:
-            - mysql
-        image: phpmyadmin/phpmyadmin
-        ports:
-            - "8070:80"
-        environment:
-            - PMA_HOST=mysql
-            - PMA_PASSWORD=wordpress
-
     ftp:
         build:
-            context: ./ftp # Chemin relatif au Dockerfile
-        network_mode: host
+            context: ./ftp
         ports:
-            - "21:21" # Port FTP standard
-            - "21000-21010:21000-21010" # Ports passifs FTP
+            - "21:21"
+            - "21000-21010:21000-21010"
         environment:
-            - USERS=wordpress|1FTPvmQ2tl@@AZ|/var/www/html
-            - UID=33 # Correspond à l'UID de www-data
-            - GID=33 # Correspond au GID de www-data
+            - USERS=ftpuser|strongpassword|/var/www/html
+            - UID=1000
+            - GID=1000
         volumes:
-            - "wordpress-files:/var/www/html" # Partage avec WordPress
+            - "wordpress-files:/var/www/html"
 
 volumes:
     wordpress-files:
-        driver: local # Volume local pour persister les fichiers WordPress
+        driver: local
     mysql-data:
-        driver: local # Volume local pour les données MySQL
+        driver: local

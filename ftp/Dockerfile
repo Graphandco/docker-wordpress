@@ -1,11 +1,11 @@
-# Dockerfile
 FROM delfer/alpine-ftp-server
 
-# Ajouter le groupe et l'utilisateur www-data avec UID=33 et GID=33
-RUN addgroup -g 33 www-data && adduser -D -u 33 -G www-data www-data
-
-# Assurer les permissions correctes pour le répertoire partagé
-RUN mkdir -p /var/www/html && chown -R www-data:www-data /var/www/html
-
-# Configuration finale et démarrage du serveur FTP
-CMD ["/run.sh"]
+# Créer un utilisateur et un groupe partagé pour WordPress et FTP
+RUN \
+  echo "Création de l'utilisateur et du groupe communs avec UID=1000 et GID=1000" && \
+  addgroup -g 1000 sharedgroup && \
+  adduser -D -u 1000 -G sharedgroup shareduser && \
+  mkdir -p /var/www/html && \
+  chown -R shareduser:sharedgroup /var/www/html && \
+  chmod -R g+rw /var/www/html && \
+  chmod g+s /var/www/html
