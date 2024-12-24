@@ -4,21 +4,15 @@ FROM delfer/alpine-ftp-server
 ARG UID=33
 ARG GID=33
 
-# Création ou mise à jour de l'utilisateur www-data
+# Création de l'utilisateur et du groupe www-data
 RUN \
     if ! id -u www-data >/dev/null 2>&1; then \
-        if ! getent passwd ${UID} >/dev/null 2>&1 && ! getent group ${GID} >/dev/null 2>&1; then \
-            echo "Création de www-data avec UID=${UID} et GID=${GID}"; \
-            addgroup -g ${GID} www-data && adduser -D -u ${UID} -G www-data www-data; \
-        else \
-            echo "Conflit détecté avec UID=${UID} ou GID=${GID}. Utilisation de valeurs temporaires."; \
-            addgroup -g 1001 www-data && adduser -D -u 1001 -G www-data www-data; \
-        fi; \
-    else \
-        echo "Utilisateur www-data déjà présent"; \
+        echo "Création de www-data"; \
+        addgroup -g ${GID} www-data || addgroup -g 1001 www-data; \
+        adduser -D -u ${UID} -G www-data www-data || adduser -D -u 1001 -G www-data www-data; \
     fi
 
-# Préparer le dossier et appliquer les permissions
+# Création du répertoire et application des droits
 RUN mkdir -p /var/www/html && chown -R www-data:www-data /var/www/html
 
 # Configuration des utilisateurs FTP
