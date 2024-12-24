@@ -61,7 +61,7 @@ services:
         environment:
             - USERS=ftpuser|strongpassword|/var/www/html
         volumes:
-            - "wordpress-files:/var/www/html"
+            - "wordpress-files:/var/www/html" # Assure que le volume est partagé
         depends_on:
             - wordpress
 
