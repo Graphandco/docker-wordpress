@@ -4,24 +4,14 @@ services:
     wordpress:
         image: "wordpress:latest"
         volumes:
-            - "wordpress-files:/var/www/html" # Partage avec FTP
+            - "wordpress-files:/var/www/html"
         environment:
-            - SERVICE_FQDN_WORDPRESS
             - WORDPRESS_DB_HOST=mysql
             - WORDPRESS_DB_USER=$USER_WORDPRESS
             - WORDPRESS_DB_PASSWORD=$PASSWORD_WORDPRESS
             - WORDPRESS_DB_NAME=wordpress
         depends_on:
             - mysql
-        healthcheck:
-            test:
-                - CMD
-                - curl
-                - "-f"
-                - "http://127.0.0.1"
-            interval: 2s
-            timeout: 10s
-            retries: 10
 
     mysql:
         image: "mysql:8"
@@ -32,41 +22,21 @@ services:
             - MYSQL_DATABASE=wordpress
             - MYSQL_USER=$USER_WORDPRESS
             - MYSQL_PASSWORD=$PASSWORD_WORDPRESS
-        healthcheck:
-            test:
-                - CMD
-                - mysqladmin
-                - ping
-                - "-h"
-                - 127.0.0.1
-            interval: 5s
-            timeout: 20s
-            retries: 10
-
-    pma:
-        depends_on:
-            - mysql
-        image: phpmyadmin/phpmyadmin
-        ports:
-            - "8070:80"
-        environment:
-            - PMA_HOST=mysql
-            - PMA_PASSWORD=$MYSQL_PASSWORD_ROOT
 
     ftp:
         build:
-            context: ./ftp # Chemin relatif au Dockerfile
+            context: ./ftp
         network_mode: host
         ports:
-            - "21:21" # Port FTP standard
-            - "21000-21010:21000-21010" # Ports passifs FTP
+            - "21:21"
+            - "21000-21010:21000-21010"
         environment:
             - USERS=ftpusergraphandco|1FTPvmQ2tl@@AZ|/var/www/html
         volumes:
-            - "wordpress-files:/var/www/html" # Volume partagé avec WordPress
+            - "wordpress-files:/var/www/html"
 
 volumes:
     wordpress-files:
-        driver: local # Volume local pour persister les fichiers WordPress
+        driver: local
     mysql-data:
-        driver: local # Volume local pour les données MySQL
+        driver: local
