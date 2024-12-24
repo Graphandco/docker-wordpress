@@ -1,12 +1,16 @@
 FROM delfer/alpine-ftp-server
 
-# Création ou vérification de l'utilisateur www-data
+# Variables pour l'UID et le GID
+ARG UID=33
+ARG GID=33
+
+# Création ou vérification de l'utilisateur www-data avec UID/GID dynamiques
 RUN \
     if ! id -u www-data >/dev/null 2>&1; then \
-        if ! getent passwd 33 >/dev/null 2>&1 && ! getent group 33 >/dev/null 2>&1; then \
-            addgroup -g 33 www-data && adduser -D -u 33 -G www-data www-data; \
+        if ! getent passwd ${UID} >/dev/null 2>&1 && ! getent group ${GID} >/dev/null 2>&1; then \
+            addgroup -g ${GID} www-data && adduser -D -u ${UID} -G www-data www-data; \
         else \
-            echo "Conflit avec UID/GID 33. Assignation temporaire pour www-data."; \
+            echo "Conflit avec UID ${UID} ou GID ${GID}. Assignation temporaire pour www-data."; \
             addgroup -g 1001 www-data && adduser -D -u 1001 -G www-data www-data; \
         fi; \
     fi
