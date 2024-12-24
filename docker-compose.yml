@@ -55,20 +55,20 @@ services:
 
     ftp:
         build:
-            context: ./ftp # Chemin relatif au Dockerfile
+            context: ./ftp
         network_mode: host
         ports:
-            - "21:21" # Port FTP standard
-            - "21000-21010:21000-21010" # Ports passifs FTP
+            - "21:21"
+            - "21000-21010:21000-21010"
         environment:
             - USERS=ftpusergraphandco|1FTPvmQ2tl@@AZ|/var/www/html
-            - UID=33 # Correspond à l'UID de www-data
-            - GID=33 # Correspond au GID de www-data
+            - UID=33
+            - GID=33
         volumes:
-            - "wordpress-files:/var/www/html" # Partage avec WordPress
+            - "wordpress-files:/var/www/html"
 
 volumes:
     wordpress-files:
-        driver: local # Volume local pour persister les fichiers WordPress
+        driver: local
     mysql-data:
-        driver: local # Volume local pour les données MySQL
+        driver: local
