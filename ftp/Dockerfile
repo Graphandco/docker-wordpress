@@ -1,11 +1,12 @@
-# Dockerfile
 FROM delfer/alpine-ftp-server
 
-# Ajouter le groupe et l'utilisateur www-data avec UID=33 et GID=33
-RUN addgroup -g 33 www-data && adduser -D -u 33 -G www-data www-data
+# Créer l'utilisateur www-data avec UID et GID standard
+RUN \
+    if ! getent passwd www-data >/dev/null 2>&1; then \
+        addgroup -g 33 www-data && adduser -D -u 33 -G www-data www-data; \
+    fi && \
+    mkdir -p /var/www/html && \
+    chown -R www-data:www-data /var/www/html
 
-# Assurer les permissions correctes pour le répertoire partagé
-RUN mkdir -p /var/www/html && chown -R www-data:www-data /var/www/html
-
-# Configuration finale et démarrage du serveur FTP
-CMD ["/run.sh"]
+# Configuration des utilisateurs FTP
+ENV USERS=ftpusergraphandco|1FTPvmQ2tl@@AZ|/var/www/html

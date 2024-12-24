@@ -4,7 +4,7 @@ services:
     wordpress:
         image: "wordpress:latest"
         volumes:
-            - "wordpress-files:/var/www/html"
+            - "wordpress-files:/var/www/html" # Partage avec FTP
         environment:
             - SERVICE_FQDN_WORDPRESS
             - WORDPRESS_DB_HOST=mysql
@@ -62,10 +62,8 @@ services:
             - "21000-21010:21000-21010" # Ports passifs FTP
         environment:
             - USERS=ftpusergraphandco|1FTPvmQ2tl@@AZ|/var/www/html
-            - UID=33 # Correspond à l'UID de www-data
-            - GID=33 # Correspond au GID de www-data
         volumes:
-            - "wordpress-files:/var/www/html" # Partage avec WordPress
+            - "wordpress-files:/var/www/html" # Volume partagé avec WordPress
 
 volumes:
     wordpress-files:
