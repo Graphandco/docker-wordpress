@@ -64,7 +64,6 @@ services:
             - "wordpress-files:/var/www/html"
         depends_on:
             - wordpress
-
 volumes:
     wordpress-files:
         driver: local
