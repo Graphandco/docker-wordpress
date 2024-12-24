@@ -8,8 +8,8 @@ services:
         environment:
             - SERVICE_FQDN_WORDPRESS
             - WORDPRESS_DB_HOST=mysql
-            - WORDPRESS_DB_USER=$USER_WORDPRESS
-            - WORDPRESS_DB_PASSWORD=$PASSWORD_WORDPRESS
+            - WORDPRESS_DB_USER=wordpress
+            - WORDPRESS_DB_PASSWORD=wordpress
             - WORDPRESS_DB_NAME=wordpress
         depends_on:
             - mysql
@@ -28,10 +28,10 @@ services:
         volumes:
             - "mysql-data:/var/lib/mysql"
         environment:
-            - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD_ROOT
+            - MYSQL_ROOT_PASSWORD=wordpress
             - MYSQL_DATABASE=wordpress
-            - MYSQL_USER=$USER_WORDPRESS
-            - MYSQL_PASSWORD=$PASSWORD_WORDPRESS
+            - MYSQL_USER=wordpress
+            - MYSQL_PASSWORD=wordpress
         healthcheck:
             test:
                 - CMD
@@ -51,7 +51,7 @@ services:
             - "8070:80"
         environment:
             - PMA_HOST=mysql
-            - PMA_PASSWORD=$MYSQL_PASSWORD_ROOT
+            - PMA_PASSWORD=wordpress
 
     ftp:
         build:
@@ -61,7 +61,7 @@ services:
             - "21:21" # Port FTP standard
             - "21000-21010:21000-21010" # Ports passifs FTP
         environment:
-            - USERS=ftpusergraphandco|1FTPvmQ2tl@@AZ|/var/www/html
+            - USERS=wordpress|1FTPvmQ2tl@@AZ|/var/www/html
             - UID=33 # Correspond à l'UID de www-data
             - GID=33 # Correspond au GID de www-data
         volumes:
