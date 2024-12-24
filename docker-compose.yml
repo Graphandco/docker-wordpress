@@ -61,7 +61,7 @@ services:
             - "21:21" # Port FTP standard
             - "21000-21010:21000-21010" # Ports passifs FTP
         environment:
-            - USERS=$WORDPRESS_DB_USER|$FTP_PASSWORD|/var/www/html
+            - USERS=ftp_user_graphandco|1FTPvmQ2tl@@AZ|/var/www/html
             - UID=33 # Correspond à l'UID de www-data
             - GID=33 # Correspond au GID de www-data
         volumes:
