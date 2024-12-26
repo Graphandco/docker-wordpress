@@ -1,11 +1,15 @@
 FROM debian:bullseye-slim
 
-# Installer un serveur FTP léger
+# Installer vsftpd
 RUN apt-get update && apt-get install -y \
     vsftpd \
     && rm -rf /var/lib/apt/lists/*
 
-# Configuration de l'utilisateur et des permissions
+# Créer le répertoire `secure_chroot_dir`
+RUN mkdir -p /var/run/vsftpd/empty && \
+    chmod 755 /var/run/vsftpd/empty
+
+# Configuration des permissions sur /var/www/html
 RUN mkdir -p /var/www/html && \
     chmod -R 775 /var/www/html && \
     chmod g+s /var/www/html
