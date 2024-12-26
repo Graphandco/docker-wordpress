@@ -1,8 +1,8 @@
 FROM delfer/alpine-ftp-server
 
-# Création de l'utilisateur et du groupe www-data
-RUN addgroup -g 33 www-data && \
-    adduser -u 33 -D -G www-data www-data
+# Vérification et création de l'utilisateur et du groupe www-data uniquement s'ils n'existent pas
+RUN if ! getent group 33 >/dev/null; then addgroup -g 33 www-data; fi && \
+    if ! getent passwd 33 >/dev/null; then adduser -u 33 -D -G www-data www-data; fi
 
 # Configuration des permissions sur /var/www/html
 RUN mkdir -p /var/www/html && \
