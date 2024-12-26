@@ -13,14 +13,13 @@ services:
         depends_on:
             - mysql
         healthcheck:
-            test:
-                - CMD
-                - curl
-                - "-f"
-                - "http://127.0.0.1"
+            test: ["CMD", "curl", "-f", "http://127.0.0.1"]
             interval: 2s
             timeout: 10s
             retries: 10
+        ports:
+            - "8080:80" # Exposition du port pour WordPress
+        user: "www-data" # Assure que WordPress fonctionne sous l'utilisateur correct
 
     mysql:
         image: "mysql:8"
@@ -32,12 +31,7 @@ services:
             - MYSQL_USER=$USER_WORDPRESS
             - MYSQL_PASSWORD=$PASSWORD_WORDPRESS
         healthcheck:
-            test:
-                - CMD
-                - mysqladmin
-                - ping
-                - "-h"
-                - 127.0.0.1
+            test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
             interval: 5s
             timeout: 20s
             retries: 10
@@ -61,7 +55,7 @@ services:
         environment:
             - USERS=ftpuser|strongpassword|/var/www/html
         volumes:
-            - "wordpress-files:/var/www/html" # Assure que le volume est partagé
+            - "wordpress-files:/var/www/html" # Partage le volume avec WordPress
         depends_on:
             - wordpress
 
