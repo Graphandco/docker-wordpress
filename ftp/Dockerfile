@@ -1,12 +1,9 @@
 FROM delfer/alpine-ftp-server
 
-# Assure que le répertoire existe et configure les permissions directement
+# Configuration des permissions sur /var/www/html
 RUN mkdir -p /var/www/html && \
     chmod -R 775 /var/www/html && \
-    chmod g+s /var/www/html && \
-    apk add --no-cache shadow && \
-    groupmod -g 33 ftp && \
-    usermod -u 33 -g 33 ftp
+    chmod g+s /var/www/html
 
-# Commande d'exécution pour garantir les permissions à chaque démarrage
+# Commande d'exécution
 ENTRYPOINT ["sh", "-c", "chmod -R 775 /var/www/html && chmod g+s /var/www/html && exec /run.sh"]
